@@ -9,7 +9,8 @@
       <div class="absolute-right">
         <q-btn
           class="no-shadow full-height"
-          size="20px"
+          size="14px"
+          style="padding: 4px"
           icon="reply"
           @click.native="back"
         >
@@ -17,20 +18,23 @@
         </q-btn>
         <q-btn class="full-height shadow-0"
                @click.native=user_info_btn_click
-               size="20px"
+               size="24px"
                icon="account_circle">
           <q-tooltip :offset="[5,5]">{{user_info_btn_tip()}}</q-tooltip>
         </q-btn>
         <q-btn
           class="full-height"
           icon="help_outline"
-          flat size="20px"
-          @click="navigate_to_confluence"
+          flat
+          size="14px"
+          style="padding: 4px"
+          @click="navigate_to_csdn"
         >
           <q-tooltip :offset="[5,5]">使用手册(或按F1查看)</q-tooltip>
         </q-btn>
         <q-btn class="full-height"
-               size="20px"
+               size="14px"
+               style="padding: 4px"
                flat icon="exit_to_app"
                @click="logOut">
           <q-tooltip :offset="[5,5]">退出</q-tooltip>
@@ -86,7 +90,7 @@
       back(){
         this.$router.back()
       },
-      navigate_to_confluence() {
+      navigate_to_csdn() {
         window.open('', '_blank');
       },
     }

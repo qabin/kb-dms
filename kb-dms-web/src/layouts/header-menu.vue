@@ -21,14 +21,16 @@
       <div class="absolute-right">
         <q-btn class="full-height shadow-0"
                @click.native=user_info_btn_click
-               size="20px"
+               size="24px"
+               style="padding: 4px"
                icon="account_circle">
           <q-tooltip :offset="[5,5]">{{user_info_btn_tip()}}</q-tooltip>
         </q-btn>
         <q-btn
           class="shadow-0 full-height"
           icon="settings"
-          size="20px"
+          size="14px"
+          style="padding: 4px"
           @click.native="$router.push('/config/system_config')"
         >
           <q-tooltip :offset="[5,5]">配置</q-tooltip>
@@ -36,13 +38,16 @@
         <q-btn
           class="full-height"
           icon="help_outline"
-          flat size="20px"
+          flat
+          size="14px"
+          style="padding: 4px"
           @click="navigate_to_csdn"
         >
           <q-tooltip :offset="[5,5]">使用手册(或按F1查看)</q-tooltip>
         </q-btn>
         <q-btn class="full-height"
-               size="20px"
+               size="14px"
+               style="padding: 4px"
                flat icon="exit_to_app"
                @click="logOut">
           <q-tooltip :offset="[5,5]">退出</q-tooltip>
@@ -65,17 +70,17 @@
     },
     data: () => {
       return {
-        icoUrl:'../../static/superman.ico'
+        icoUrl: '../../static/superman.ico'
       }
     },
     computed: {
       showMenu() {
         return this.$store.state.main.show_menu;
       },
-      userName () {
+      userName() {
         return this.$store.state.user.name
       },
-      isAdmin () {
+      isAdmin() {
         return this.$store.state.user.is_admin
       },
     },
@@ -83,14 +88,14 @@
       clickShowMenu() {
         this.$store.state.main.show_menu = !this.showMenu;
       },
-      user_info_btn_click () {
+      user_info_btn_click() {
         if (this.userName) {
           //this.$router.push({path: '/user/update'})
         } else {
           this.$router.push(({path: '/login'}))
         }
       },
-      user_info_btn_tip () {
+      user_info_btn_tip() {
         if (this.userName) {
           return '欢迎，' + this.userName
         } else {
