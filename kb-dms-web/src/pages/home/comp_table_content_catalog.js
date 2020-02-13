@@ -8,7 +8,8 @@ import {string_to_json} from "../../utils/data_format_utils";
 import {data_options_type_enums} from "../../utils/sql_editor_dictionary";
 import {get_dml_sql_build} from "./utils_dml_sql_command_builder";
 import extend from "quasar-framework/src/utils/extend";
-import TableDataMenu from './comp_table_data_menu'
+import TableDataMenu from './comp_table_data_menu';
+import {format_date_full, format_time, format_day, format_year} from "../../utils/date_format_utils";
 
 export default {
   name: 'comp_table_content_catalog',
@@ -105,7 +106,8 @@ export default {
             }) : null
           ]),
 
-        ])));
+        ])
+      ));
 
       scope['body'] = props => [
         (typeof props.row['options_type'] === 'undefined' || props.row['options_type'] !== data_options_type_enums.DELETE) ? h('q-tr', {
@@ -238,7 +240,7 @@ export default {
             if (d.status === 1) {
               let result = (string_to_json(d.data.data))['data'] || []
               this.rows = []
-              this.rows = result;
+              this.rows = this.change_result_value(result);
               this.temp_rows = extend(true, [], this.rows)
               this.rowsNumber = d.data.count || 0;
             }
@@ -416,6 +418,44 @@ export default {
       })
 
       return remarks
+    },
+    change_result_value(datalist) {
+      let tempType = {}
+      this.table_fields&&Object.keys(this.table_fields).forEach(key=>{
+        if (this.table_fields[key]['type_name']==='TIMESTAMP' || this.table_fields[key]['type_name']==='DATETIME'
+          || this.table_fields[key]['type_name']==='TIME' || this.table_fields[key]['type_name']==='DATE'
+          || this.table_fields[key]['type_name']==='YEAR') {
+          tempType[this.table_fields[key]['column_name']] = this.table_fields[key]['type_name']
+        }
+      })
+      let change_list = []
+      if (datalist && datalist.length > 0) {
+        Object.keys(datalist).map(k=>{
+          let result = datalist[k]
+          tempType&&Object.keys(tempType).forEach(type=>{
+            result[type] = this.change_value(result[type], tempType[type])
+          })
+          change_list.push(result)
+        })
+      }
+
+      return change_list
+    },
+    change_value(value, type) {
+      switch(type) {
+        case 'TIMESTAMP':
+          return format_date_full(value)
+        case 'DATETIME':
+          return format_date_full(value)
+        case 'TIME':
+          return format_time(value)
+        case 'DATE':
+          return format_day(value)
+        case 'YEAR':
+          return format_year(value)
+        default:
+          return value
+      }
     }
   },
   render(h) {

@@ -63,7 +63,7 @@ const new_table_rows = [
     readonly: true,
   },
   {
-    column_name: 'inserttime',
+    column_name: 'insert_time',
     column_def: 'CURRENT_TIMESTAMP',
     is_autoincrement: false,
     is_nullable: false,
@@ -75,7 +75,7 @@ const new_table_rows = [
     readonly: true,
   },
   {
-    column_name: 'updatetime',
+    column_name: 'update_time',
     column_def: 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
     is_autoincrement: false,
     is_nullable: false,
@@ -101,18 +101,18 @@ const new_table_index_rows = [
     options_type: data_options_type_enums.ADD,
   },
   {
-    index_name: 'idx_inserttime',
+    index_name: 'idx_insert_time',
     online_index_name: null,
     readonly: true,
-    index_columns: ['inserttime'],
+    index_columns: ['insert_time'],
     index_type: 'INDEX',
     options_type: data_options_type_enums.ADD,
   },
   {
-    index_name: 'idx_updatetime',
+    index_name: 'idx_update_time',
     online_index_name: null,
     readonly: true,
-    index_columns: ['updatetime'],
+    index_columns: ['update_time'],
     index_type: 'INDEX',
     options_type: data_options_type_enums.ADD,
   },
@@ -121,7 +121,7 @@ const new_table_index_rows = [
   }
 ]
 
-const default_table_columns = ['inserttime', 'updatetime', 'id']
+const default_table_columns = ['insert_time', 'update_time', 'id']
 
 export default {
   name: 'comp_table_edit_catalog',

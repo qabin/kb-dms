@@ -82,7 +82,7 @@ export default {
 
     render_data_type(h) {
       if (data_type_name_date_options.some(d => d.toUpperCase() === this.field.type_name.toUpperCase())) {
-        return this.render_datetime_picker(h)
+        return this.render_input(h)
       } else if (data_type_name_boolean_options.some(b => b.toUpperCase() === this.field.type_name.toUpperCase())) {
         return this.render_check_box(h)
       } else {
