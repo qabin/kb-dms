@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.user.UsSqlEditorTabMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.user.entity.UsSqlEditorTab">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="db" property="db" jdbcType="VARCHAR"/>
+        <result column="datasource_id" property="datasource_id" jdbcType="INTEGER"/>
+        <result column="sql_text" property="sql_text" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="update_time" jdbcType="TIMESTAMP"/>
+        <result column="creator_account" property="creator_account" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="table_name" property="table_name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, db, datasource_id, sql_text, create_time, update_time, creator_account,status
+    creator_name,table_name,type
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from us_sql_editor_tab
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from us_sql_editor_tab
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insertSelective" parameterType="com.bin.kong.dms.model.user.entity.UsSqlEditorTab"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into us_sql_editor_tab
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="db != null">
+                db,
+            </if>
+            <if test="datasource_id != null">
+                datasource_id,
+            </if>
+            <if test="sql_text != null">
+                sql_text,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="creator_account != null">
+                creator_account,
+            </if>
+            <if test="creator_name != null">
+                creator_name,
+            </if>
+            <if test="table_name != null">
+                table_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="db != null">
+                #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="datasource_id != null">
+                #{datasource_id,jdbcType=INTEGER},
+            </if>
+            <if test="sql_text != null">
+                #{sql_text,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator_account != null">
+                #{creator_account,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_name != null">
+                #{creator_name,jdbcType=VARCHAR},
+            </if>
+            <if test="table_name != null">
+                #{table_name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.kong.dms.model.user.entity.UsSqlEditorTab">
+        update us_sql_editor_tab
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="db != null">
+                db = #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="datasource_id != null">
+                datasource_id = #{datasource_id,jdbcType=INTEGER},
+            </if>
+            <if test="sql_text != null">
+                sql_text = #{sql_text,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator_account != null">
+                creator_account = #{creator_account,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_name != null">
+                creator_name = #{creator_name,jdbcType=VARCHAR},
+            </if>
+            <if test="table_name != null">
+                table_name = #{table_name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="searchList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.user.search.SqlEditorTabSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from us_sql_editor_tab
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and (name like CONCAT('%',#{kw},'%'))
+        </if>
+        <if test="creator_account != null">
+            and creator_account=#{creator_account}
+        </if>
+    </select>
+
+</mapper>

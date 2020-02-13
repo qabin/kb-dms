@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.join.BusGroupJoinOwnerMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.join.entity.BusGroupJoinOwner">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="creator_account" property="creator_account" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="owner_name" property="owner_name" jdbcType="VARCHAR"/>
+        <result column="owner_account" property="owner_account" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+      distinct bus_group.id id, bus_group.name name, bus_group.create_time create_time, bus_group.status status,
+       bus_group.creator_account creator_account, bus_group.creator_name creator_name,
+       owners.account owner_account,owners.name owner_name
+  </sql>
+
+    <select id="searchList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.join.search.BusGroupJoinOwnerSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from cf_bus_group bus_group
+        left join cf_bus_group_owners owners
+        on bus_group.id=owners.bus_group_id
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and (bus_group.name like CONCAT('%',#{kw},'%'))
+        </if>
+        <if test="status != null">
+            and bus_group.status=#{status}
+        </if>
+        <if test="creator != null">
+            and bus_group.creator_account=#{creator}
+        </if>
+        <if test="owner != null">
+            and owners.account=#{owner}
+        </if>
+        order by bus_group.status desc,bus_group.id
+    </select>
+
+</mapper>

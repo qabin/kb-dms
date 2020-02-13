@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/kb-dms-backend/contract/contract.iml" filepath="$PROJECT_DIR$/kb-dms-backend/contract/contract.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kb-dms-backend/core/core.iml" filepath="$PROJECT_DIR$/kb-dms-backend/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kb-dms-backend/dao/dao.iml" filepath="$PROJECT_DIR$/kb-dms-backend/dao/dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kb-dms-backend/dms-backend.iml" filepath="$PROJECT_DIR$/kb-dms-backend/dms-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kb-dms.iml" filepath="$PROJECT_DIR$/kb-dms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kb-dms-backend/model/model.iml" filepath="$PROJECT_DIR$/kb-dms-backend/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kb-dms-backend/server/server.iml" filepath="$PROJECT_DIR$/kb-dms-backend/server/server.iml" />
+    </modules>
+  </component>
+</project>

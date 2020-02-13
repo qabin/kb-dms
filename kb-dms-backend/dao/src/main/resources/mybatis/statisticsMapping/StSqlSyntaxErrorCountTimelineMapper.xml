@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.statistics.StSqlSyntaxErrorCountTimelineMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.statistics.entity.StSqlSyntaxErrorCountTimeline">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, type, count,create_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from st_sql_syntax_error_count_timeline
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from st_sql_syntax_error_count_timeline
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insertSelective"
+            parameterType="com.bin.kong.dms.model.statistics.entity.StSqlSyntaxErrorCountTimeline">
+        insert into st_sql_syntax_error_count_timeline
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="searchCountForStatistics" resultType="java.lang.Integer"
+            parameterType="com.bin.kong.dms.model.statistics.search.StSqlSyntaxErrorCountTimelineSearch">
+        select
+        SUM(count)
+        from st_sql_syntax_error_count_timeline
+        where 1=1
+
+        <if test="type != null">
+            and type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="start_time != null">
+            and create_time <![CDATA[ >= ]]>#{start_time}
+        </if>
+        <if test="end_time != null">
+            and create_time <![CDATA[ <= ]]> #{end_time}
+        </if>
+    </select>
+</mapper>

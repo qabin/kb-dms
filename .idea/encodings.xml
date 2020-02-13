@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/kb-dms-backend" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kb-dms-backend/contract" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kb-dms-backend/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kb-dms-backend/dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kb-dms-backend/model" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kb-dms-backend/server" charset="UTF-8" />
+  </component>
+</project>

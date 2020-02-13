@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.result.RsSqlExeResultMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.result.entity.RsSqlExeResult">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sql_exe_record_id" property="sql_exe_record_id" jdbcType="INTEGER"/>
+        <result column="sql_text" property="sql_text" jdbcType="VARCHAR"/>
+        <result column="result" property="result" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="update_time" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="syntax_error_type" property="syntax_error_type" jdbcType="INTEGER"/>
+        <result column="syntax_error_sql" property="syntax_error_sql" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="creator_account" property="creator_account" jdbcType="VARCHAR"/>
+        <result column="sql_option_type" property="sql_option_type" jdbcType="INTEGER"/>
+        <result column="datasource_name" property="datasource_name" jdbcType="VARCHAR"/>
+        <result column="datasource_type" property="datasource_type" jdbcType="INTEGER"/>
+        <result column="db" property="db" jdbcType="VARCHAR"/>
+        <result column="datasource_id" property="datasource_id" jdbcType="INTEGER"/>
+        <result column="group_id" property="group_id" jdbcType="INTEGER"/>
+        <result column="group_name" property="group_name" jdbcType="VARCHAR"/>
+        <result column="table_name_list" property="table_name_list" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, sql_exe_record_id, sql_text, result, create_time, update_time, status,syntax_error_type,syntax_error_sql,creator_name,creator_account,
+    sql_option_type, datasource_name, datasource_type ,db,datasource_id,group_id,group_name,table_name_list
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from rs_sql_exe_result
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rs_sql_exe_result
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insertSelective" parameterType="com.bin.kong.dms.model.result.entity.RsSqlExeResult"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into rs_sql_exe_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sql_exe_record_id != null">
+                sql_exe_record_id,
+            </if>
+            <if test="sql_text != null">
+                sql_text,
+            </if>
+            <if test="result != null">
+                result,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="syntax_error_type != null">
+                syntax_error_type,
+            </if>
+            <if test="syntax_error_sql != null">
+                syntax_error_sql,
+            </if>
+            <if test="creator_name != null">
+                creator_name,
+            </if>
+            <if test="creator_account != null">
+                creator_account,
+            </if>
+            <if test="sql_option_type != null">
+                sql_option_type,
+            </if>
+            <if test="datasource_name != null">
+                datasource_name,
+            </if>
+            <if test="datasource_type != null">
+                datasource_type,
+            </if>
+            <if test="db != null">
+                db,
+            </if>
+            <if test="datasource_id != null">
+                datasource_id,
+            </if>
+            <if test="group_id != null">
+                group_id,
+            </if>
+            <if test="group_name != null">
+                group_name,
+            </if>
+            <if test="table_name_list != null">
+                table_name_list,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_record_id != null">
+                #{sql_exe_record_id,jdbcType=INTEGER},
+            </if>
+            <if test="sql_text != null">
+                #{sql_text,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="syntax_error_type != null">
+                #{syntax_error_type,jdbcType=INTEGER},
+            </if>
+            <if test="syntax_error_sql != null">
+                #{syntax_error_sql,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_name != null">
+                #{creator_name,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_account != null">
+                #{creator_account,jdbcType=VARCHAR},
+            </if>
+            <if test="sql_option_type != null">
+                #{sql_option_type,jdbcType=INTEGER},
+            </if>
+            <if test="datasource_name != null">
+                #{datasource_name,jdbcType=VARCHAR},
+            </if>
+            <if test="datasource_type != null">
+                #{datasource_type,jdbcType=INTEGER},
+            </if>
+            <if test="db != null">
+                #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="datasource_id != null">
+                #{datasource_id,jdbcType=INTEGER},
+            </if>
+            <if test="group_id != null">
+                #{group_id,jdbcType=INTEGER},
+            </if>
+            <if test="group_name != null">
+                #{group_name,jdbcType=VARCHAR},
+            </if>
+            <if test="table_name_list != null">
+                #{table_name_list,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.kong.dms.model.result.entity.RsSqlExeResult">
+        update rs_sql_exe_result
+        <set>
+            <if test="sql_exe_record_id != null">
+                sql_exe_record_id = #{sql_exe_record_id,jdbcType=INTEGER},
+            </if>
+            <if test="sql_text != null">
+                sql = #{sql_text,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                result = #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="syntax_error_sql != null">
+                syntax_error_sql = #{syntax_error_sql,jdbcType=VARCHAR},
+            </if>
+            <if test="syntax_error_type != null">
+                syntax_error_type = #{syntax_error_type,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="selectList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.result.entity.RsSqlExeResult">
+        select
+        <include refid="Base_Column_List"/>
+        from rs_sql_exe_result
+        where 1=1
+        <if test="sql_exe_record_id != null">
+            and sql_exe_record_id =#{sql_exe_record_id}
+        </if>
+    </select>
+
+    <select id="searchList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.result.search.SqlExeResultSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from rs_sql_exe_result
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and db=#{kw}
+        </if>
+        <if test="creator != null">
+            and creator_account=#{creator}
+        </if>
+        <if test="sql_option_type != null">
+            and sql_option_type=#{sql_option_type}
+        </if>
+        <if test="is_syntax_error !=null and is_syntax_error">
+            and (syntax_error_type is not null and syntax_error_type!=3)
+        </if>
+        <if test="syntax_error_type!=null">
+            and (syntax_error_type =#{syntax_error_type})
+        </if>
+        order by id desc
+        <if test="pageSize != null and pageNum !=null">
+            limit #{startNum},#{pageSize}
+        </if>
+    </select>
+
+    <select id="searchCount" resultType="java.lang.Integer"
+            parameterType="com.bin.kong.dms.model.result.search.SqlExeResultSearch">
+        select
+        count(*)
+        from rs_sql_exe_result
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and db=#{kw}
+        </if>
+        <if test="creator != null">
+            and creator_account=#{creator}
+        </if>
+        <if test="sql_option_type != null">
+            and sql_option_type=#{sql_option_type}
+        </if>
+        <if test="is_syntax_error !=null and is_syntax_error">
+            and (syntax_error_type is not null and syntax_error_type!=3)
+        </if>
+        <if test="syntax_error_type!=null">
+            and (syntax_error_type =#{syntax_error_type})
+        </if>
+    </select>
+
+    <select id="searchCountForStatistics" resultType="java.lang.Integer"
+            parameterType="com.bin.kong.dms.model.result.search.SqlExeResultSearch">
+        select
+        count(*)
+        from rs_sql_exe_result
+        where 1=1
+
+        <if test="status != null">
+            and status=#{status}
+        </if>
+        <if test="start_time != null">
+            and create_time>#{start_time}
+        </if>
+        <if test="end_time != null">
+            and create_time <![CDATA[ <= ]]> #{end_time}
+        </if>
+        <if test="syntax_error_type != null">
+            and syntax_error_type =#{syntax_error_type}
+        </if>
+    </select>
+
+</mapper>

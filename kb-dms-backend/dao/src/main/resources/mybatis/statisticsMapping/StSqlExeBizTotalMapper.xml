@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.statistics.StSqlExeBizTotalMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.statistics.entity.StSqlExeBizTotal">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sql_exe_result_total" property="sql_exe_result_total" jdbcType="INTEGER"/>
+        <result column="sql_exe_result_success_total" property="sql_exe_result_success_total" jdbcType="INTEGER"/>
+        <result column="sql_exe_result_running_total" property="sql_exe_result_running_total" jdbcType="INTEGER"/>
+        <result column="sql_exe_result_fail_total" property="sql_exe_result_fail_total" jdbcType="INTEGER"/>
+        <result column="sql_syntax_no_permission_total" property="sql_syntax_no_permission_total" jdbcType="INTEGER"/>
+        <result column="sql_syntax_no_limit_total" property="sql_syntax_no_limit_total" jdbcType="INTEGER"/>
+        <result column="sql_syntax_no_where_total" property="sql_syntax_no_where_total" jdbcType="INTEGER"/>
+        <result column="sql_syntax_error_total" property="sql_syntax_error_total" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, sql_exe_result_total, sql_exe_result_success_total, sql_exe_result_fail_total,
+    sql_syntax_no_permission_total, sql_syntax_no_limit_total, sql_syntax_no_where_total,sql_syntax_error_total,sql_exe_result_running_total
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from st_sql_exe_biz_total
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from st_sql_exe_biz_total
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insertSelective" parameterType="com.bin.kong.dms.model.statistics.entity.StSqlExeBizTotal">
+        insert into st_sql_exe_biz_total
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sql_exe_result_total != null">
+                sql_exe_result_total,
+            </if>
+            <if test="sql_exe_result_success_total != null">
+                sql_exe_result_success_total,
+            </if>
+            <if test="sql_exe_result_running_total != null">
+                sql_exe_result_running_total,
+            </if>
+            <if test="sql_exe_result_fail_total != null">
+                sql_exe_result_fail_total,
+            </if>
+            <if test="sql_syntax_no_permission_total != null">
+                sql_syntax_no_permission_total,
+            </if>
+            <if test="sql_syntax_no_limit_total != null">
+                sql_syntax_no_limit_total,
+            </if>
+            <if test="sql_syntax_no_where_total != null">
+                sql_syntax_no_where_total,
+            </if>
+            <if test="sql_syntax_error_total != null">
+                sql_syntax_error_total,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_total != null">
+                #{sql_exe_result_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_success_total != null">
+                #{sql_exe_result_success_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_running_total != null">
+                #{sql_exe_result_running_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_fail_total != null">
+                #{sql_exe_result_fail_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_permission_total != null">
+                #{sql_syntax_no_permission_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_limit_total != null">
+                #{sql_syntax_no_limit_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_where_total != null">
+                #{sql_syntax_no_where_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_error_total != null">
+                #{sql_syntax_error_total,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bin.kong.dms.model.statistics.entity.StSqlExeBizTotal">
+        update st_sql_exe_biz_total
+        <set>
+            <if test="sql_exe_result_total != null">
+                sql_exe_result_total = #{sql_exe_result_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_success_total != null">
+                sql_exe_result_success_total = #{sql_exe_result_success_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_running_total != null">
+                sql_exe_result_running_total = #{sql_exe_result_running_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_fail_total != null">
+                sql_exe_result_fail_total = #{sql_exe_result_fail_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_permission_total != null">
+                sql_syntax_no_permission_total = #{sql_syntax_no_permission_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_limit_total != null">
+                sql_syntax_no_limit_total = #{sql_syntax_no_limit_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_where_total != null">
+                sql_syntax_no_where_total = #{sql_syntax_no_where_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_error_total != null">
+                sql_syntax_error_total = #{sql_syntax_error_total,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateAddStatisticsCount" parameterType="com.bin.kong.dms.model.statistics.entity.StSqlExeBizTotal">
+        update st_sql_exe_biz_total
+        <set>
+            <if test="sql_exe_result_total != null">
+                sql_exe_result_total = sql_exe_result_total+#{sql_exe_result_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_success_total != null">
+                sql_exe_result_success_total =sql_exe_result_success_total+
+                #{sql_exe_result_success_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_running_total != null">
+                sql_exe_result_running_total =sql_exe_result_running_total+
+                #{sql_exe_result_running_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_exe_result_fail_total != null">
+                sql_exe_result_fail_total =sql_exe_result_fail_total+ #{sql_exe_result_fail_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_permission_total != null">
+                sql_syntax_no_permission_total =sql_syntax_no_permission_total+
+                #{sql_syntax_no_permission_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_limit_total != null">
+                sql_syntax_no_limit_total =sql_syntax_no_limit_total+ #{sql_syntax_no_limit_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_no_where_total != null">
+                sql_syntax_no_where_total =sql_syntax_no_where_total+ #{sql_syntax_no_where_total,jdbcType=INTEGER},
+            </if>
+            <if test="sql_syntax_error_total != null">
+                sql_syntax_error_total =sql_syntax_error_total+ #{sql_syntax_error_total,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

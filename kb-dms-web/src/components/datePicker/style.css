@@ -1,0 +1,3 @@
+.bg-start-end {
+  background: linear-gradient(135deg, var(--q-color-primary), var(--q-color-primary) 49%, white 50%, var(--q-color-secondary) 49%, var(--q-color-secondary));
+}

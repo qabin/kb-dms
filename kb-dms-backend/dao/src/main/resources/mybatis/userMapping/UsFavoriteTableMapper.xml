@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.user.UsFavoriteTableMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.user.entity.UsFavoriteTable">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="datasource_id" property="datasource_id" jdbcType="INTEGER"/>
+        <result column="db" property="db" jdbcType="VARCHAR"/>
+        <result column="table_name" property="table_name" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, datasource_id, db, table_name, account, create_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from us_favorite_table
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from us_favorite_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insertSelective" parameterType="com.bin.kong.dms.model.user.entity.UsFavoriteTable">
+        insert into us_favorite_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="datasource_id != null">
+                datasource_id,
+            </if>
+            <if test="db != null">
+                db,
+            </if>
+            <if test="table_name != null">
+                table_name,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="datasource_id != null">
+                #{datasource_id,jdbcType=INTEGER},
+            </if>
+            <if test="db != null">
+                #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="table_name != null">
+                #{table_name,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.kong.dms.model.user.entity.UsFavoriteTable">
+        update us_favorite_table
+        <set>
+            <if test="datasource_id != null">
+                datasource_id = #{datasource_id,jdbcType=INTEGER},
+            </if>
+            <if test="db != null">
+                db = #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="table_name != null">
+                table_name = #{table_name,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.user.entity.UsFavoriteTable">
+        select
+        <include refid="Base_Column_List"/>
+        from us_favorite_table
+        where 1=1
+        <if test="account != null">
+            and account =#{account}
+        </if>
+        <if test="datasource_id != null">
+            and datasource_id =#{datasource_id}
+        </if>
+        <if test="db != null">
+            and db =#{db}
+        </if>
+        <if test="table_name != null">
+            and table_name =#{table_name}
+        </if>
+    </select>
+
+    <update id="deleteByPrimaryKeySelective"
+            parameterType="com.bin.kong.dms.model.user.entity.UsFavoriteTable">
+    delete from us_favorite_table
+    where datasource_id = #{datasource_id,jdbcType=INTEGER} and account = #{account,jdbcType=VARCHAR} and db=#{db} and table_name=#{table_name}
+  </update>
+</mapper>

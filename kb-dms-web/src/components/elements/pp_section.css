@@ -1,0 +1,11 @@
+.inactive-toggle.q-icon {
+  transition: opacity 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 0ms cubic-bezier(0.23, 1, 0.32, 1) 350ms;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.active-toggle.q-icon {
+  transition: opacity 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 500ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  opacity: 1;
+  transform: scale(1)
+}

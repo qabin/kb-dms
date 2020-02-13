@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.config.CfDatasourceMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.config.entity.CfDatasource">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="group_id" property="group_id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="port" property="port" jdbcType="INTEGER"/>
+        <result column="db" property="db" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="creator_account" property="creator_account" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="update_time" jdbcType="TIMESTAMP"/>
+        <result column="query_switch" property="query_switch" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, group_id, name, description, type, status, ip, port, db, username, password,
+    creator_name, creator_account, create_time, update_time,query_switch
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from cf_datasource
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cf_datasource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insertSelective" parameterType="com.bin.kong.dms.model.config.entity.CfDatasource"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into cf_datasource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="group_id != null">
+                group_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="db != null">
+                db,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="creator_name != null">
+                creator_name,
+            </if>
+            <if test="creator_account != null">
+                creator_account,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="query_switch != null">
+                query_switch,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="group_id != null">
+                #{group_id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="db != null">
+                #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_name != null">
+                #{creator_name,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_account != null">
+                #{creator_account,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="query_switch != null">
+                #{query_switch,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.kong.dms.model.config.entity.CfDatasource">
+        update cf_datasource
+        <set>
+            <if test="group_id != null">
+                group_id = #{group_id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=INTEGER},
+            </if>
+            <if test="db != null">
+                db = #{db,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_name != null">
+                creator_name = #{creator_name,jdbcType=VARCHAR},
+            </if>
+            <if test="creator_account != null">
+                creator_account = #{creator_account,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="query_switch != null">
+                query_switch = #{query_switch,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="searchList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.config.search.DatasourceSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from cf_datasource
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and (account like CONCAT('%',#{kw},'%'))
+        </if>
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.config.entity.CfDatasource">
+        select
+        <include refid="Base_Column_List"/>
+        from cf_datasource
+        where 1=1
+        <if test="id != null ">
+            and id=#{id}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer"
+            parameterType="com.bin.kong.dms.model.config.entity.CfDatasource">
+        select
+        count(*)
+        from cf_datasource
+        where 1=1
+        <if test="id != null ">
+            and id=#{id}
+        </if>
+        <if test="status != null ">
+            and status=#{status}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+.pp-notification-top-enter {
+  opacity: 0;
+  -webkit-transform: translateY(-50px);
+  transform: translateY(-50px);
+  z-index: 9499;
+}
+
+.pp-notification-top-leave-to {
+  opacity: 0;
+  z-index: 9499;
+}
+
+.pp-notification-top-right-enter {
+  opacity: 0;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  z-index: 9499;
+}
+
+.pp-notification-top-right-leave-to {
+  opacity: 0;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  z-index: 9499;
+}

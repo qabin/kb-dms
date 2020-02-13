@@ -1,0 +1,17 @@
+.ace-eclipse .ace_gutter {
+  border-right: none !important;
+  background: #fafafa !important
+}
+
+.btn-hover {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.btn-hover:hover {
+  background: #e0e0e0 !important;
+}
+
+.ace_content_disable {
+  background: #fafafa !important;
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.config.CfBusGroupOwnersMapper" >
+  <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.config.entity.CfBusGroupOwners" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bus_group_id" property="bus_group_id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, account, bus_group_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from cf_bus_group_owners
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cf_bus_group_owners
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByBusGroupId" parameterType="java.lang.Integer" >
+    delete from cf_bus_group_owners
+    where bus_group_id = #{bus_group_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.bin.kong.dms.model.config.entity.CfBusGroupOwners"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into cf_bus_group_owners
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="bus_group_id != null" >
+        bus_group_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bus_group_id != null" >
+        #{bus_group_id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bin.kong.dms.model.config.entity.CfBusGroupOwners" >
+    update cf_bus_group_owners
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bus_group_id != null" >
+        bus_group_id = #{bus_group_id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" resultMap="BaseResultMap"
+          parameterType="com.bin.kong.dms.model.config.entity.CfBusGroupOwners">
+    select
+    <include refid="Base_Column_List"/>
+    from cf_bus_group_owners
+    where 1=1
+    <if test="bus_group_id != null">
+      and bus_group_id=#{bus_group_id}
+    </if>
+    <if test="account != null">
+      and account=#{account}
+    </if>
+  </select>
+</mapper>

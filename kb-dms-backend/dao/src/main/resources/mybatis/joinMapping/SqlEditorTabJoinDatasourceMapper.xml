@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.join.SqlEditorTabJoinDatasourceMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.join.entity.SqlEditorTabJoinDatasource">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="db" property="db" jdbcType="VARCHAR"/>
+        <result column="datasource_id" property="datasource_id" jdbcType="INTEGER"/>
+        <result column="sql_text" property="sql_text" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="update_time" jdbcType="TIMESTAMP"/>
+        <result column="creator_account" property="creator_account" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="datasource_name" property="datasource_name" jdbcType="VARCHAR"/>
+        <result column="datasource_type" property="datasource_type" jdbcType="INTEGER"/>
+        <result column="table_name" property="table_name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    sql_tab.id id, sql_tab.name name, sql_tab.db db, sql_tab.datasource_id datasource_id, sql_tab.sql_text sql_text, sql_tab.create_time create_time,
+    sql_tab.update_time update_time,sql_tab.creator_account creator_account,
+    sql_tab.creator_name creator_name,datasource.name datasource_name,
+    datasource.type datasource_type,sql_tab.table_name table_name,sql_tab.type type
+    </sql>
+
+    <select id="searchList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.join.search.SqlEditorTabJoinDatasourceSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from us_sql_editor_tab sql_tab
+        left join cf_datasource datasource
+        on datasource.id=sql_tab.datasource_id
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and (sql_tab.name like CONCAT('%',#{kw},'%'))
+        </if>
+        <if test="creator_account != null">
+            and sql_tab.creator_account=#{creator_account}
+        </if>
+
+        <if test="status != null">
+            and sql_tab.status=#{status}
+        </if>
+
+    </select>
+
+</mapper>

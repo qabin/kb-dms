@@ -1,0 +1,25 @@
+.expandable_filter_bar {
+  height: 0;
+  transform: scaleY(0);
+  opacity: 0;
+  transform-origin: left top 0;
+  transition-property: transform, opacity, height;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.expandable_filter_bar.expand {
+  height: auto;
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.pjm-selector.active .active_label {
+  color: var(--q-color-primary) !important;
+}
+
+.pjm-selector.active .active_label_icon {
+  color: var(--q-color-primary) !important;
+  transform: rotate(-180deg);
+}
+

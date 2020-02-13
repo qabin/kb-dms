@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.statistics.StSqlSyntaxErrorCountDayMapper" >
+  <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.statistics.entity.StSqlSyntaxErrorCountDay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, count, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from st_sql_syntax_error_count_day
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from st_sql_syntax_error_count_day
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bin.kong.dms.model.statistics.entity.StSqlSyntaxErrorCountDay" >
+    insert into st_sql_syntax_error_count_day (id, type, count,
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{count,jdbcType=INTEGER},
+      #{create_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bin.kong.dms.model.statistics.entity.StSqlSyntaxErrorCountDay" >
+    insert into st_sql_syntax_error_count_day
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bin.kong.dms.model.statistics.entity.StSqlSyntaxErrorCountDay" >
+    update st_sql_syntax_error_count_day
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="searchList" resultMap="BaseResultMap"
+          parameterType="com.bin.kong.dms.model.statistics.search.StSqlSyntaxErrorCountDaySearch">
+    select
+    <include refid="Base_Column_List"/>
+    from st_sql_syntax_error_count_day
+    where 1=1
+    order by id desc
+    <if test="pageSize != null and pageNum !=null">
+      limit #{startNum},#{pageSize}
+    </if>
+  </select>
+</mapper>

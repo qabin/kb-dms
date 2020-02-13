@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.join.DatasourceJoinGroupMapper">
+    <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.join.entity.DatasourceJoinGroup">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="update_time" jdbcType="TIMESTAMP"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="creator_account" property="creator_account" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="group_id" property="group_id" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="group_name" property="group_name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="port" property="port" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="db" property="db" jdbcType="VARCHAR"/>
+        <result column="query_switch" property="query_switch" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+   datasource.id id, datasource.create_time create_time, datasource.update_time update_time, datasource.creator_name creator_name,
+   datasource.creator_account creator_account, datasource.name name, datasource.description description, datasource.group_id group_id,
+    datasource.status status,bus.name group_name,datasource.type type,
+    datasource.ip ip,datasource.port port,datasource.username username,datasource.db db,
+    datasource.query_switch query_switch
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from cf_datasource datasource
+        left join cf_bus_group bus
+        on datasource.group_id=bus.id
+        where datasource.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchList" resultMap="BaseResultMap"
+            parameterType="com.bin.kong.dms.model.join.search.DatasourceJoinGroupSearch">
+        select
+        <include refid="Base_Column_List"/>
+        from cf_datasource datasource
+        left join cf_bus_group bus
+        on datasource.group_id=bus.id
+        where 1=1
+        <if test="kw != null and kw.length>0">
+            and (datasource.name like CONCAT('%',#{kw},'%'))
+        </if>
+        <if test="status != null">
+            and datasource.status=#{status,javaType=INTEGER}
+        </if>
+        <if test="creator != null">
+            and datasource.creator_account=#{creator}
+        </if>
+        order by datasource.status desc,datasource.id
+    </select>
+
+</mapper>

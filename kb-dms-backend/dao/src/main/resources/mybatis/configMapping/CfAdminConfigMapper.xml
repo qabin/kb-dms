@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.kong.dms.dao.mapper.config.CfAdminConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.bin.kong.dms.model.config.entity.CfAdminConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="creator_account" property="creator_account" jdbcType="VARCHAR" />
+    <result column="creator_name" property="creator_name" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, create_time,creator_name, creator_account,name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from cf_admin_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cf_admin_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByAccount" parameterType="java.lang.String" >
+    delete from cf_admin_config
+    where account = #{account,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.bin.kong.dms.model.config.entity.CfAdminConfig"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into cf_admin_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="creator_name != null" >
+        creator_name,
+      </if>
+      <if test="creator_account != null" >
+        creator_account,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator_name != null" >
+        #{creator_name,jdbcType=VARCHAR},
+      </if>
+      <if test="creator_account != null" >
+        #{creator_account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectList" resultMap="BaseResultMap"
+          parameterType="com.bin.kong.dms.model.config.entity.CfAdminConfig">
+    select
+    <include refid="Base_Column_List"/>
+    from cf_admin_config
+    where 1=1
+    <if test="account != null">
+      and account =#{account}
+    </if>
+  </select>
+
+  <select id="searchList" resultMap="BaseResultMap"
+          parameterType="com.bin.kong.dms.model.config.search.AdminSearch">
+    select
+    <include refid="Base_Column_List"/>
+    from cf_admin_config
+    where 1=1
+    <if test="kw != null and kw.length>0">
+      and (account like CONCAT('%',#{kw},'%'))
+    </if>
+  </select>
+</mapper>
