@@ -1,8 +1,8 @@
 const left_menu_data = [
   {
-    label: '首页',
+    label: '终端',
     to: '/index',
-    icon: 'home',
+    icon: 'mdi-console',
   },
   {
     label: '历史',
