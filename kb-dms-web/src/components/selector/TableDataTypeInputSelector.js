@@ -11,8 +11,8 @@ const mysql_data_type_list = [
         value: 'INT(11)'
       },
       {
-        label: 'VARCHAR(1024)',
-        value: 'VARCHAR(1024)'
+        label: 'VARCHAR(191)',
+        value: 'VARCHAR(191)'
       },
       {
         label: 'DATETIME',

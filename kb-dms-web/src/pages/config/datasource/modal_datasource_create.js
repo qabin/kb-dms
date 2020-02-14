@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     title() {
-      return '创建字典映射'
+      return '创建数据源'
     },
     init() {
       this.model = {

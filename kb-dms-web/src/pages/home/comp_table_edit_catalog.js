@@ -11,7 +11,7 @@ import TableDdlRowMenu from './comp_table_edit_row_menu'
 import TableIndexRowMenu from './comp_table_index_row_menu'
 import {ajax_get_datasource_db_table_info} from "../../api/config/datasource_api";
 import SideNavigator from '../../components/elements/side_navigator'
-import {get_index_of_arr, remove_item_from_arr} from "../../utils/data_utils";
+import {get_index_of_arr, remove_item_from_arr, replace_item_for_arr} from "../../utils/data_utils";
 import LazyInput from "../../components/catalog/ComponentLazyInput";
 import {DDLType} from "../../utils/edit_ddl_dictionary";
 import {ajax_get_datasource_sql_options_permission} from "../../api/permission/sql_options_api";
@@ -1136,13 +1136,35 @@ export default {
       this.get_ddl_sql()
     },
     input_event(props, column_name, options_type, v) {
-      this.selected_rows = []
-      this.selected_rows.push(props.row)
 
-      props.row[column_name] = v
       if (typeof props.row['options_type'] === 'undefined' || props.row['options_type'] === null) {
         props.row['options_type'] = options_type
       }
+      //处理当字段类型变更时，column_def、is_primary、is_unsigned等值初始化
+      if (column_name === 'type_name') {
+        props.row.column_def = null
+        props.row.is_primary_key = false
+        props.row.is_unsigned = false
+        props.row.is_autoincrement = false
+        props.row.is_nullable = false
+      }
+
+      if (column_name === 'column_def' && v === '' && props.row.type_name.toUpperCase().indexOf("VARCHAR") === -1) {
+        v = null
+      }
+
+      //非线上字段\非readonly字段 当字段名变化时，如果索引中使用到旧字段，自动改变索引中关联的字段
+      if (column_name === 'column_name' && !props.row.is_online && !props.row.readonly) {
+        if (v !== props.row[column_name]) {
+          let filter_index_rows = this.index_rows.filter(d => !d.online_index_name && !d.readonly && d.index_columns.some(col => col === props.row.column_name))
+          for (let index_row of filter_index_rows) {
+            replace_item_for_arr(props.row[column_name], v, index_row.index_columns)
+          }
+        }
+      }
+
+      props.row[column_name] = v
+
       this.is_updating = true
       this.add_default_row()
       this.get_ddl_sql()
