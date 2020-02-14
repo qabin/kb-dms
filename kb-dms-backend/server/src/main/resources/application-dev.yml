@@ -38,6 +38,6 @@ spring:
 
 job:
   sql-exe-result:
-    sql-result-count: false
-    sql-syntax-error-count: false
+    sql-result-count: true
+    sql-syntax-error-count: true
 
