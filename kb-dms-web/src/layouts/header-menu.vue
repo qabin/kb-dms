@@ -106,7 +106,7 @@
         this.$store.dispatch('user/logout').then().catch();
       },
       navigate_to_csdn() {
-        window.open('', '_blank');
+        window.open('https://blog.csdn.net/a787373009/category_9717949.html', '_blank');
       },
     }
   }
