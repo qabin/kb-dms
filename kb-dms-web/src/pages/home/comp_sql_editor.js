@@ -9,6 +9,7 @@ import {
 } from "../../api/user/sql_editor_tab_api";
 
 import {ajax_get_datasource_db_table_field} from "../../api/config/datasource_api";
+import {sql_editor_tab_type_enum} from "../../utils/user_dictionary";
 
 export default {
   name: "comp_sql_editor",
@@ -116,6 +117,7 @@ export default {
             name: this.tab_name,
             datasource_id: this.datasource.id,
             db: this.db,
+            type: sql_editor_tab_type_enum.cmd_console.value,
           }).then(d => {
             this.tab_name = null
 
@@ -232,6 +234,7 @@ export default {
                       name: this.tab_name,
                       datasource_id: this.datasource.id,
                       db: this.db,
+                      type: sql_editor_tab_type_enum.cmd_console.value,
                     }).then(d => {
                       if (d.status === 1) {
                         this.$q.ok("保存成功！")
@@ -298,6 +301,7 @@ export default {
                       name: this.tab_name,
                       datasource_id: this.datasource.id,
                       db: this.db,
+                      type: sql_editor_tab_type_enum.cmd_console.value,
                     }).then(d => {
                       if (d.status === 1) {
                         this.$q.ok("保存成功！")

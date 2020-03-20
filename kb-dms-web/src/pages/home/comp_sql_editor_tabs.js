@@ -2,10 +2,11 @@ import {
   ajax_search_open_sql_editor_tab,
   ajax_close_sql_editor_tab,
   ajax_sql_editor_tab_active,
-  ajax_search_active_sql_editor_tab
+  ajax_search_active_sql_editor_tab, ajax_add_sql_editor_tab
 } from "../../api/user/sql_editor_tab_api";
 import {datasource_type_enum} from "../../utils/config_dictionary";
 import MySqlEditorSelector from '../../components/selector/MySqlEditorSelector'
+import {sql_editor_tab_type_enum} from "../../utils/user_dictionary";
 
 export default {
   name: 'comp_sql_editor_tabs',
@@ -60,32 +61,32 @@ export default {
                 marginRight: '3px'
               }
             }) : null,
-            tab && tab.type === 1 ? h('i', {
-              staticClass: 'mdi mdi-table-search text-primary',
+            tab && tab.type === sql_editor_tab_type_enum.cmd_console.value ? h('i', {
+              staticClass: sql_editor_tab_type_enum.cmd_console.icon + ' ' + sql_editor_tab_type_enum.cmd_console.color,
               style: {
                 fontSize: '16px',
                 marginRight: '3px'
               }
             }) : null,
 
-            tab && tab.type === 2 ? h('i', {
-              staticClass: 'mdi mdi-table-eye text-primary',
+            tab && tab.type === sql_editor_tab_type_enum.view_table_data.value ? h('i', {
+              staticClass: sql_editor_tab_type_enum.view_table_data.icon+" "+sql_editor_tab_type_enum.view_table_data.color,
               style: {
                 fontSize: '16px',
                 marginRight: '3px'
               }
             }) : null,
 
-            tab && tab.type === 3 ? h('i', {
-              staticClass: 'mdi mdi-table-edit text-secondary',
+            tab && (tab.type === sql_editor_tab_type_enum.edit_table.value || tab.type === sql_editor_tab_type_enum.create_table.value) ? h('i', {
+              staticClass: sql_editor_tab_type_enum.edit_table.icon+" "+sql_editor_tab_type_enum.edit_table.color,
               style: {
                 fontSize: '16px',
                 marginRight: '3px'
               }
             }) : null,
 
-            tab && tab.type === 4 ? h('i', {
-              staticClass: 'mdi mdi-table-settings text-primary',
+            tab && tab.type === sql_editor_tab_type_enum.view_table_info.value ? h('i', {
+              staticClass: sql_editor_tab_type_enum.view_table_info.icon+" "+sql_editor_tab_type_enum.view_table_info.color,
               style: {
                 fontSize: '16px',
                 marginRight: '3px'
@@ -206,7 +207,7 @@ export default {
           color: 'white',
           size: '16px',
         },
-      }, [h('q-tooltip', {props: {offset: [5, 5]}}, '我的脚本')]),
+      }, [h('q-tooltip', {props: {offset: [5, 5]}}, '我的窗口')]),
         h('q-popover', {
           props: {}
         }, [
@@ -215,6 +216,9 @@ export default {
             on: {
               select: (v) => {
                 this.select_tab(v)
+              },
+              close_curr: (v) => {
+                this.close_cur_tab(v)
               }
             }
           })
@@ -238,29 +242,67 @@ export default {
       }
     },
     add_active_tab(v, first) {
-      let newTab = this.new_default_tab()
-      this.selectTab = {
-        ...newTab,
-        ...v
+      if (v && v.type && (v.type === sql_editor_tab_type_enum.view_table_data.value || v.type === sql_editor_tab_type_enum.edit_table.value || v.type === sql_editor_tab_type_enum.view_table_info.value)) {
+        for (let tab of this.tabs) {
+          if (tab.db === v.db && tab.table_name === v.table_name) {
+            this.selectTab = tab
+            return;
+          }
+        }
       }
+      new Promise((resolve, reject) => {
+        if (v && v.type && v.type !== sql_editor_tab_type_enum.create_table.value) {
+          ajax_add_sql_editor_tab({
+            sql_text: null,
+            name: v.name,
+            datasource_id: v.datasource_id,
+            db: v.db,
+            table_name: v.table_name,
+            type: v.type
+          }).then(d => {
+            if (d.status === 1) {
+              let tab_id = d.data
+              tab_id && ajax_sql_editor_tab_active(tab_id).then(d => {
+                v['id'] = tab_id
+                resolve(v)
+              })
+            }
+          })
+        } else {
+          resolve(v)
+        }
+      }).then(v => {
+        if (!v.id) {
+          let newTab = this.new_default_tab()
+          this.selectTab = {
+            ...newTab,
+            ...v
+          }
+        } else {
+          this.selectTab = {
+            ...v
+          }
+        }
 
-      let new_tab_obj = {
-        ...this.selectTab
-      }
 
-      new_tab_obj['from_table_catalog'] = false
+        let new_tab_obj = {
+          ...this.selectTab
+        }
 
-      if (!first) {
-        this.tabs.push({
-          ...new_tab_obj
-        })
-        //添加元素后自动滚动到最右侧
-        setTimeout(this.auto_scroll_to_right, 100)
-      } else {
-        this.tabs.splice(0, 1, new_tab_obj)
-        //添加元素后自动滚动到最左侧
-        setTimeout(this.auto_scroll_to_left, 100)
-      }
+        new_tab_obj['from_table_catalog'] = false
+
+        if (!first) {
+          this.tabs.push({
+            ...new_tab_obj
+          })
+          //添加元素后自动滚动到最右侧
+          setTimeout(this.auto_scroll_to_right, 100)
+        } else {
+          this.tabs.splice(0, 1, new_tab_obj)
+          //添加元素后自动滚动到最左侧
+          setTimeout(this.auto_scroll_to_left, 100)
+        }
+      }).catch()
 
     },
     auto_scroll_to_right() {
@@ -302,6 +344,7 @@ export default {
 
       v.id && typeof v.id === 'number' && ajax_close_sql_editor_tab(v.id).then(d => {
         if (d.status === 1) {
+          flag && (this.selectTab = index - 1 <= 0 ? this.tabs[0] : this.tabs[index - 1]) && this.$emit('select', this.selectTab)
 
         }
       })

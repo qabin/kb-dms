@@ -1,9 +1,10 @@
 import {
   ajax_search_active_sql_editor_tab,
   ajax_search_all_sql_editor_tab,
-  ajax_open_sql_editor_tab
+  ajax_open_sql_editor_tab, ajax_delete_sql_editor_tab
 } from "../../api/user/sql_editor_tab_api";
 import {datasource_type_enum} from "../../utils/config_dictionary";
+import {sql_editor_tab_type_enum_optoins} from "../../utils/user_dictionary";
 
 export default {
   name: 'my_sql_editor_selector',
@@ -37,14 +38,15 @@ export default {
         h('div', {
           style: {
             width: '20px',
+            minWidth: '20px',
             marginRight: '3px'
           },
         }, [
           this.active && this.active.sql_tab_id === t.id ? h('q-icon', {
             props: {
-              name: 'check',
-              size: '16px',
-              color: 'primary'
+              name: 'label_important',
+              size: '24px',
+              color: 'info'
             }
           }) : null,]),
         t.datasource_type ? h('i', {
@@ -54,9 +56,43 @@ export default {
             marginRight: '3px'
           }
         }) : null,
+        h('i', {
+          staticClass: sql_editor_tab_type_enum_optoins[t.type].icon + " " + sql_editor_tab_type_enum_optoins[t.type].color,
+          style: {
+            fontSize: '20px',
+            marginRight: '3px'
+          }
+        }),
         h('span', {
           staticClass: 'col-grow ellipsis'
-        }, [t.name ? t.name : (t.db ? t.db + '@' + t.datasource_name : '请选择数据库')])
+        }, [t.name ? t.name : this.is_online ? (t.db + '@' + t.datasource_url + ":" + t.datasource_port) : (t.db ? t.db + '@' + t.datasource_name : '请选择数据库')]),
+        h('q-icon', {
+          staticClass: 'cursor-pointer q-ml-sm pp-selectable-bg-red-5 pp-selectable-color-white',
+          'class': {
+            disabled: this.disable
+          },
+          style: {
+            padding: '4px'
+          },
+          props: {
+            name: 'delete_forever',
+            color: 'negative',
+            size: '22px'
+          },
+          nativeOn: {
+            click: () => {
+              t.id && ajax_delete_sql_editor_tab(t.id).then(d => {
+                if (d.status === 1) {
+                  this.$q.ok("删除窗口成功！")
+                  this.$emit("close_curr", t)
+                  this.refresh_catalog()
+                }
+              })
+            }
+          }
+        }, [
+          h('q-tooltip', {props: {offset: [5, 5]}}, '删除窗口'),
+        ]),
       ])
     },
     render_tabs_catalog(h) {
@@ -67,7 +103,7 @@ export default {
         ])
       } else {
         return h('div', {
-          staticClass: 'items-center font-13 text-faded text-center full-height',
+          staticClass: 'items-center font-13 text-faded text-left full-height',
           style: {
             height: '20px'
           }
@@ -94,12 +130,12 @@ export default {
   render(h) {
     return h('div', {
       style: {
-        width: '200px',
+        width: '300px',
         minHeight: '0px'
       }
     }, [this.render_tabs_catalog(h)])
   },
-  mounted() {
+  activated() {
     this.refresh_catalog()
   }
 }

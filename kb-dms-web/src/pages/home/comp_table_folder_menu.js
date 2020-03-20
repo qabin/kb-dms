@@ -5,6 +5,7 @@ import {ajax_get_table_create_sql} from "../../api/utils/sql_editor_utils_api";
 import {ajax_add_sql_editor_tab, ajax_sql_editor_tab_active} from "../../api/user/sql_editor_tab_api";
 import {ajax_drop_table, ajax_truncate_table} from "../../api/utils/sql_exe_utils_api";
 import {datasource_type_enum} from "../../utils/config_dictionary";
+import {sql_editor_tab_type_enum} from "../../utils/user_dictionary";
 
 export default {
   name: 'comp_table_menu',
@@ -95,6 +96,7 @@ export default {
                 name: null,
                 datasource_id: this.datasource.id,
                 db: this.db,
+                type: sql_editor_tab_type_enum.cmd_console.value
               }).then(d => {
                 if (d.status === 1) {
                   d.data && ajax_sql_editor_tab_active(d.data).then(d => {

@@ -5,6 +5,7 @@ import {ajax_get_datasource, ajax_get_datasource_db_table} from '../../api/confi
 import TableFolder from './comp_table_folder'
 import {ajax_add_sql_editor_tab, ajax_sql_editor_tab_active} from "../../api/user/sql_editor_tab_api";
 import {ajax_add_table_favorite, ajax_delete_table_favorite} from "../../api/user/user_favorite_api";
+import {sql_editor_tab_type_enum} from "../../utils/user_dictionary";
 
 export default {
   name: 'comp_table_catalog',
@@ -218,6 +219,7 @@ export default {
                     name: null,
                     datasource_id: v.datasource.id,
                     db: v.db,
+                    type: sql_editor_tab_type_enum.cmd_console.value
                   }).then(d => {
                     if (d.status === 1) {
                       d.data && ajax_sql_editor_tab_active(d.data).then(d => {

@@ -6,6 +6,7 @@ import TableCatalog from './comp_table_catalog'
 import SqlEditorTabs from './comp_sql_editor_tabs'
 import TableEditCatalog from './comp_table_edit_catalog'
 import ModalSqlConfirm from './modal_sql_confirm'
+import {sql_editor_tab_type_enum} from "../../utils/user_dictionary";
 
 export default {
   name: "home_index",
@@ -14,7 +15,7 @@ export default {
   }),
   methods: {
     render_tab_type(h) {
-      if (this.tab.type === 2) {
+      if (this.tab.type === sql_editor_tab_type_enum.view_table_data.value) {
         return h(TableContentCatalog, {
           ref: 'TableContentCatalog',
           props: {
@@ -31,7 +32,7 @@ export default {
             }
           }
         })
-      } else if (this.tab.type === 3) {
+      } else if (this.tab.type === sql_editor_tab_type_enum.edit_table.value || this.tab.type === sql_editor_tab_type_enum.create_table.value) {
         return h(TableEditCatalog, {
           ref: 'TableEditCatalog',
           props: {
@@ -49,7 +50,7 @@ export default {
             }
           }
         })
-      } else if (this.tab.type === 4) {
+      } else if (this.tab.type === sql_editor_tab_type_enum.view_table_info.value) {
         return h(TableInfo, {
           ref: 'TableInfo',
           props: {
@@ -69,8 +70,8 @@ export default {
             refresh: () => {
               this.$refs.SqlEditorTabs.refresh_tab_data_list()
             },
-            close_curr:()=>{
-              this.$refs.SqlEditorTabs.close_cur_tab()
+            close_curr: (v) => {
+              this.$refs.SqlEditorTabs.close_cur_tab(v)
 
             }
           }
@@ -120,6 +121,7 @@ export default {
                 },
                 view_table_content: (v) => {
                   this.$refs.SqlEditorTabs && this.$refs.SqlEditorTabs.add_active_tab({
+                    id: v.id,
                     name: v.table,
                     db: v.db,
                     datasource_id: v.datasource.id,
@@ -131,6 +133,7 @@ export default {
                 },
                 view_table_info: (v) => {
                   this.$refs.SqlEditorTabs && this.$refs.SqlEditorTabs.add_active_tab({
+                    id: v.id,
                     name: v.table,
                     db: v.db,
                     datasource_id: v.datasource.id,
@@ -142,6 +145,7 @@ export default {
                 },
                 edit_table: (v) => {
                   this.$refs.SqlEditorTabs && this.$refs.SqlEditorTabs.add_active_tab({
+                    id: v.id,
                     name: v.table,
                     db: v.db,
                     datasource_id: v.datasource.id,
@@ -153,6 +157,7 @@ export default {
                 },
                 create_table: (v) => {
                   this.$refs.SqlEditorTabs && this.$refs.SqlEditorTabs.add_active_tab({
+                    id: v.id,
                     name: "创建新表",
                     db: v.db,
                     datasource_id: v.datasource.id,
@@ -180,7 +185,7 @@ export default {
 
                   v && v.db && (typeof this.tab['from_table_catalog'] === 'undefined' || !this.tab['from_table_catalog']) && this.$refs.TableCatalog.refresh_db_tab_from_index(v.datasource_id, v.db)
 
-                  if (this.tab.type === 1) {
+                  if (this.tab.type === sql_editor_tab_type_enum.cmd_console.value) {
 
                     new Promise((resolve, reject) => {
                       if (typeof v.id === 'number') {
@@ -201,11 +206,11 @@ export default {
 
                     })
 
-                  } else if (this.tab.type === 2) {
+                  } else if (this.tab.type === sql_editor_tab_type_enum.view_table_data.value) {
                     // setTimeout(() => {
                     //   v && this.$refs.TableContentCatalog && this.$refs.TableContentCatalog.refresh_tab(v.id)
                     // }, 200)
-                  } else if (this.tab.type === 3) {
+                  } else if (this.tab.type === sql_editor_tab_type_enum.edit_table.value) {
                     // setTimeout(() => {
                     //   v && this.$refs.TableEditCatalog && this.$refs.TableEditCatalog.refresh_tab(v.id)
                     // }, 200)
