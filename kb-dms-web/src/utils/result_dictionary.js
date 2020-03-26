@@ -32,6 +32,11 @@ export const sql_option_type_enum = {
     label: '表结构',
     color: 'positive',
     icon: 'check'
+  },
+  4: {
+    label: '其他',
+    color: 'info',
+    icon: 'check'
   }
 };
 
@@ -97,6 +102,11 @@ export const sql_exe_result_query_type_enum = {
     label: '表结构操作',
     key: 'ddl_type',
     color: 'positive'
+  },
+  exe_failed: {
+    label: '执行失败',
+    key: 'exe_failed',
+    color: 'negative',
   },
   no_permission: {
     label: '越权操作',

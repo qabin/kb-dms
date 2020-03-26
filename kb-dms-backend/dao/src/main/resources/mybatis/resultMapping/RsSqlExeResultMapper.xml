@@ -220,6 +220,9 @@
         <if test="syntax_error_type!=null">
             and (syntax_error_type =#{syntax_error_type})
         </if>
+        <if test="status!=null">
+            and status =#{status}
+        </if>
         order by id desc
         <if test="pageSize != null and pageNum !=null">
             limit #{startNum},#{pageSize}
@@ -247,6 +250,9 @@
         <if test="syntax_error_type!=null">
             and (syntax_error_type =#{syntax_error_type})
         </if>
+        <if test="status!=null">
+            and status =#{status}
+        </if>
     </select>
 
     <select id="searchCountForStatistics" resultType="java.lang.Integer"
@@ -267,6 +273,9 @@
         </if>
         <if test="syntax_error_type != null">
             and syntax_error_type =#{syntax_error_type}
+        </if>
+        <if test="status!=null">
+            and status =#{status}
         </if>
     </select>
 

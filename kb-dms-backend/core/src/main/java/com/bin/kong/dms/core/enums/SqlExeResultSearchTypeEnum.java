@@ -2,7 +2,7 @@ package com.bin.kong.dms.core.enums;
 
 public enum SqlExeResultSearchTypeEnum {
     ALL(0, "all"), DQL_TYPE(1, "dql_type"), DML_TYPE(2, "dml_type"), DDL_TYPE(3, "ddl_type"),
-    NO_PERMISSION(3, "no_permission"), SYNTAX_ERROR(5, "syntax_error");
+    NO_PERMISSION(3, "no_permission"), SYNTAX_ERROR(5, "syntax_error"),EXE_FAILED(6, "exe_failed");
 
     public Integer getType() {
         return type;

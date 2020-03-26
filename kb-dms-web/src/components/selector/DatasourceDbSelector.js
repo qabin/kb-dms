@@ -14,7 +14,6 @@ import {
 export default {
   name: 'datasource_db_selector',
   data: () => ({
-    kw: null,
     group: null,
     groups: [],
     data: [],
@@ -24,7 +23,8 @@ export default {
     no_more_datasource: false,
     db_list: [],
     db: null,
-    table_kw: null
+    table_kw: null,
+    datasource_filter_kw: null,
   }),
   props: {
     default_group: {},
@@ -88,28 +88,15 @@ export default {
     }
   },
   methods: {
-    render_search(h) {
-      return h('div', {}, [
-        h(LazyInput, {
-          staticClass: 'pp-search-input',
-          style: {
-            margin: '3px'
-          },
-          props: {value: this.kw, placeholder: '按数据源名称查找', width: '100%'},
-          on: {
-            input: v => {
-              this.kw = v;
-              this.$nextTick(this.refresh_catalog)
-            }
-          }
-        })
-      ])
-    },
     render_db_catalog(h) {
       let filter_list = this.table_kw && this.table_kw != null ? this.db_list.filter(d => d.name.toLowerCase().indexOf(this.table_kw.toLowerCase()) !== -1) : this.db_list
 
       return h('div', {}, [
-        h('div', {}, [
+        h('div', {
+          style: {
+            height: '30px'
+          }
+        }, [
           h(LazyInput, {
             staticClass: 'pp-search-input',
             style: {
@@ -215,10 +202,11 @@ export default {
     },
     render_group_catalog(h) {
       return h('div', {
+        staticClass:'scroll',
         style: {
           borderRight: '1px solid var(--q-color-grey-3)',
           width: '120px',
-          maxHeight: '100%'
+          height:'330px'
         }
       }, [this.collection_list.map(p => [
         this.render_group_catalog_item(h, p),
@@ -271,16 +259,20 @@ export default {
           width: '240px',
         }
       }, [
-        h('div', {}, [
+        h('div', {
+          style: {
+            height: '30px'
+          }
+        }, [
           h(LazyInput, {
             staticClass: 'pp-search-input',
             style: {
               margin: '3px'
             },
-            props: {value: this.kw, placeholder: '数据源', width: '100%'},
+            props: {value: this.datasource_filter_kw, placeholder: '数据源', width: '100%'},
             on: {
               input: v => {
-                this.kw = v;
+                this.datasource_filter_kw = v;
                 this.$nextTick(this.refresh_catalog)
               }
             }
@@ -290,12 +282,18 @@ export default {
           staticClass: 'scroll',
           style: {
             width: '240px',
-            maxHeight: '300px'
+            height: '300px'
           }
-        }, [this.datasource_list != null && this.datasource_list && this.datasource_list.map(p => [
-          this.render_datasource_catalog_item(h, p),
-          h('q-item-separator', {staticClass: 'q-ma-none'})
-        ])])
+        }, [
+          this.datasource_filter_kw ? this.datasource_list.filter(d => d.name.indexOf(this.datasource_filter_kw) !== -1).map(p => [
+              this.render_datasource_catalog_item(h, p),
+              h('q-item-separator', {staticClass: 'q-ma-none'})
+            ]) :
+            this.datasource_list.map(p => [
+              this.render_datasource_catalog_item(h, p),
+              h('q-item-separator', {staticClass: 'q-ma-none'})
+            ])
+        ])
       ])
     },
     refresh_catalog() {
@@ -305,16 +303,14 @@ export default {
       this.group = null
       this.db_list = []
       this.db = null
-      this.search_all_datasource_list(this.kw)
+      this.search_all_datasource_list()
     },
-    search_all_datasource_list(kw = this.kw, callback) {
-      kw = kw ? kw : null
-      let vm = this
-      ajax_datasource_search(kw, 1)
+    search_all_datasource_list( callback) {
+      ajax_datasource_search(null, 1)
         .then(data => {
           if (data.status === 1) {
-            vm.collection_list = vm.collection_list.concat(this.deal_data_to_folder_list(data.data) || [])
-            this.group === null && vm.collection_list.length > 0 && (this.group = vm.collection_list[0])
+            this.collection_list = this.collection_list.concat(this.deal_data_to_folder_list(data.data) || [])
+            this.group === null && this.collection_list.length > 0 && (this.group = this.collection_list[0])
             if (this.group !== null && this.group.children) {
               this.datasource_list = this.group.children || []
             }
@@ -326,9 +322,7 @@ export default {
             }
 
           }
-          callback && callback()
-        })
-        .catch(() => this.$q.err('获取数据源列表异常'))
+        }).catch(() => this.$q.err('获取数据源列表异常'))
     },
     select_datasource(datasource) {
       this.datasource = datasource;
@@ -338,7 +332,7 @@ export default {
       this.datasource_list = []
       this.collection_list = []
 
-      this.search_all_datasource_list(this.kw, () => {
+      this.search_all_datasource_list(null, () => {
         if (this.group) {
           let new_group = this.collection_list.filter(d => d.group_id === this.group.group_id)
           if (new_group && new_group.length > 0) {
@@ -453,11 +447,9 @@ export default {
     return h('div', {
       staticClass: 'font-12 column',
       style: {
-        minHeight: '300px',
         height: '100%'
       }
     }, [
-      //this.render_search(h),
       h('div', {
         staticClass: 'no-wrap row col-grow',
       }, [

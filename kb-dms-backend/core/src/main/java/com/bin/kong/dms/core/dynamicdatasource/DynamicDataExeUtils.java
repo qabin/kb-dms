@@ -122,7 +122,7 @@ public class DynamicDataExeUtils {
 
         String dataSource = DynamicDataSourceUtils.addDataSource(datasource_id, type, ip, port, db, username, password);
 
-        List<DynamicSqlOptionTypeEntity> sqlList = DynamicSqlOptionTypeControl.dealSqlOptionType(sql, DatasourceTypeEnum.getByType(type));
+        List<DynamicSqlOptionTypeEntity> sqlList = DynamicSqlOptionTypeWithDruidControl.dealSqlOptionType(sql, DatasourceTypeEnum.getByType(type));
 
         List<SqlExeResult> resultList = new ArrayList<>();
 
@@ -136,6 +136,9 @@ public class DynamicDataExeUtils {
                     break;
                 case DDL:
                     resultList.add(execute(dataSource, sqlOptionTypeEntity.getSql()));
+                    break;
+                case EXEC:
+                    resultList.add(queryForList(dataSource, sqlOptionTypeEntity.getSql()));
                     break;
 
             }

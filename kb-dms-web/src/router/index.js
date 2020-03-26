@@ -15,9 +15,9 @@ const router = new Router({
 
 const login = (to, from, next) => {
   if (!localStorageUtil.get("isLogin") && (to.path !== '/login' && to.path !== '/register')) {
-    cache_route.path = cache_route.path || from.path;
-    cache_route.query = cache_route.query || from.query;
-    cache_route.params = cache_route.params || from.params;
+    cache_route.path = cache_route.path || to.path;
+    cache_route.query = cache_route.query || to.query;
+    cache_route.params = cache_route.params || to.params;
     next('/login');
   }
 };

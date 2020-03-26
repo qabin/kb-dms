@@ -38,6 +38,7 @@ export const getUserInfo = ({state}) => {
           }
         })
         .catch((e) => {
+          localStorage.set('isLogin', false);
           router.push({path: '/login'})
         })
   })
@@ -58,6 +59,7 @@ export const refreshUserInfo = ({state}) => {
         }
       })
       .catch((e) => {
+        localStorage.set('isLogin', false);
         router.push({path: '/login'})
       })
   })
@@ -86,6 +88,7 @@ export const login = (context, form) => {
             })
             .catch(j)
         } else {
+          localStorage.set('isLogin', false);
           notify_err(d.message)
         }
 

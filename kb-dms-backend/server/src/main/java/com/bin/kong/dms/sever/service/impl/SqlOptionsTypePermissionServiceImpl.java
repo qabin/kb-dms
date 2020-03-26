@@ -90,10 +90,16 @@ public class SqlOptionsTypePermissionServiceImpl implements ISqlOptionsTypePermi
             boolean flag = false;
 
             for (CfDatasourcePermissionSqlOptions permissionSqlOptions : permissionSqlOptionsList) {
-                if (permissionSqlOptions.getOption_type() == sqlOptionTypeEntity.getOption_type_enum().getType()) {
+                if (sqlOptionTypeEntity.getOption_type_enum() == SqlOptionTypeEnum.EXEC) {
                     flag = true;
-                    break;
+                } else {
+
+                    if (permissionSqlOptions.getOption_type() == sqlOptionTypeEntity.getOption_type_enum().getType()) {
+                        flag = true;
+                        break;
+                    }
                 }
+
             }
 
             if (flag) {
@@ -103,6 +109,11 @@ public class SqlOptionsTypePermissionServiceImpl implements ISqlOptionsTypePermi
         } else {
             if (datasource.getQuery_switch() == SqlQuerySwitchEnum.OPEN.getStatus()) {
                 if (sqlOptionTypeEntity.getOption_type_enum().getType() == SqlOptionTypeEnum.DQL.getType()) {
+                    result.setSuccess(true);
+                }
+
+
+                if (sqlOptionTypeEntity.getOption_type_enum() == SqlOptionTypeEnum.EXEC) {
                     result.setSuccess(true);
                 }
             }

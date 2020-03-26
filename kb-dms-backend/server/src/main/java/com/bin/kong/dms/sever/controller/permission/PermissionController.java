@@ -4,6 +4,7 @@ import com.bin.kong.dms.contract.common.GenericResponse;
 import com.bin.kong.dms.contract.permission.response.SqlOptionsResponse;
 import com.bin.kong.dms.core.constants.ResponseConstants;
 import com.bin.kong.dms.core.enums.SqlOptionTypeEnum;
+import com.bin.kong.dms.core.enums.SqlOptionTypeEnumForPermission;
 import com.bin.kong.dms.dao.mapper.config.*;
 import com.bin.kong.dms.model.config.entity.*;
 import com.bin.kong.dms.sever.controller.common.BaseController;
@@ -41,7 +42,7 @@ public class PermissionController extends BaseController {
     @RequestMapping(value = "/permission/sql/options", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GenericResponse ajax_get_sql_options() {
         GenericResponse response = new GenericResponse();
-        List<SqlOptionsResponse> responseList = Arrays.stream(SqlOptionTypeEnum.values()).map(d -> SqlOptionsResponse.builder()
+        List<SqlOptionsResponse> responseList = Arrays.stream(SqlOptionTypeEnumForPermission.values()).map(d -> SqlOptionsResponse.builder()
                 .name(d.getName())
                 .type(d.getType())
                 .desc(d.getDesc())

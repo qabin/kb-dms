@@ -194,10 +194,6 @@ export default {
             })]),
           h('q-popover', {
             ref: 'QPopover',
-            style: {
-              maxHeight: '800px',
-              maxWidth: '800px'
-            }
           }, [
             h(DatasourceDbSelector, {
               ref: 'DatasourceSelector',

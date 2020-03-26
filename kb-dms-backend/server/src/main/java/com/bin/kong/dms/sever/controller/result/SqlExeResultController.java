@@ -90,6 +90,9 @@ public class SqlExeResultController extends BaseController {
                 case SYNTAX_ERROR:
                     search.setIs_syntax_error(true);
                     break;
+                case EXE_FAILED:
+                    search.setStatus(SqlExeResultStatusEnum.FAIL.getStatus());
+                    break;
 
             }
         }

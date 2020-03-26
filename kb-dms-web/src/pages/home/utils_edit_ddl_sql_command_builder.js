@@ -91,7 +91,7 @@ export function get_ddl_sql_builder(option_type, old_rows, new_rows, old_table, 
     sql += get_ddl_update_index_for_mysql(new_index_rows)
 
     //修改表名、备注
-    sql += get_ddl_update_table_info_for_mysql(new_table, table_remarks)
+    sql += get_ddl_update_table_info_for_mysql(old_table, new_table, table_remarks)
 
     if (sql.length > 0 || table_charset) {
       sql = "ALTER TABLE " + old_table + " " + (table_charset ? 'CHARACTER SET = ' + table_charset + ",\n" : "") + sql
@@ -195,13 +195,13 @@ function get_ddl_update_primary_key_for_mysql(old_rows, new_rows) {
   return ""
 }
 
-function get_ddl_update_table_info_for_mysql(new_table_name, new_table_remarks) {
+function get_ddl_update_table_info_for_mysql(old_table, new_table_name, new_table_remarks) {
   let sql = ""
   if (new_table_remarks) {
     sql += "COMMENT ='" + new_table_remarks + "',"
   }
 
-  if (new_table_name) {
+  if (new_table_name && new_table_name !== old_table) {
     sql += "RENAME TO `" + new_table_name + "`"
   }
 

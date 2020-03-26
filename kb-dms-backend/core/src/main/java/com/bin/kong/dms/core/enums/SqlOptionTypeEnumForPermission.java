@@ -1,8 +1,8 @@
 package com.bin.kong.dms.core.enums;
 
-public enum SqlOptionTypeEnum {
+public enum SqlOptionTypeEnumForPermission {
     //状态：1 执行中  2. 执行完成
-    DQL(1, "DQL", "查询权限", new String[]{"SELECT"}), DML(2, "DML", "修改数据权限", new String[]{"INSERT", "UPDATE", "DELETE"}), DDL(3, "DDL", "操作表结构权限", new String[]{"CREATE", "ALTER", "DROP", "TRUNCATE", "EXEC", "IF", "DECLARE", "BEGIN"}), EXEC(4, "EXEC", "操作表结构权限", new String[]{});
+    DQL(1, "DQL", "查询权限", new String[]{"SELECT"}), DML(2, "DML", "修改数据权限", new String[]{"INSERT", "UPDATE", "DELETE"}), DDL(3, "DDL", "操作表结构权限", new String[]{"CREATE", "ALTER", "DROP", "TRUNCATE", "EXEC", "IF", "DECLARE", "BEGIN"});
 
     public Integer getType() {
         return type;
@@ -45,15 +45,15 @@ public enum SqlOptionTypeEnum {
 
     private String desc;
 
-    SqlOptionTypeEnum(Integer type, String name, String desc, String[] command) {
+    SqlOptionTypeEnumForPermission(Integer type, String name, String desc, String[] command) {
         this.type = type;
         this.command = command;
         this.name = name;
         this.desc = desc;
     }
 
-    public static SqlOptionTypeEnum getByType(Integer type) {
-        for (SqlOptionTypeEnum typeEnum : values()) {
+    public static SqlOptionTypeEnumForPermission getByType(Integer type) {
+        for (SqlOptionTypeEnumForPermission typeEnum : values()) {
             if (typeEnum.getType() == type) {
                 return typeEnum;
             }

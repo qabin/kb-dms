@@ -3,15 +3,12 @@ package com.bin.kong.dms.sever.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bin.kong.dms.core.dynamicdatasource.DynamicDataExeUtils;
-import com.bin.kong.dms.core.dynamicdatasource.DynamicSqlOptionTypeControl;
+import com.bin.kong.dms.core.dynamicdatasource.DynamicSqlOptionTypeWithDruidControl;
 import com.bin.kong.dms.core.dynamicdatasource.DynamicSqlOptionTypeEntity;
 import com.bin.kong.dms.core.dynamicdatasource.DynamicSqlSyntaxCheck;
 import com.bin.kong.dms.core.entity.Result;
 import com.bin.kong.dms.core.entity.SqlExeResult;
-import com.bin.kong.dms.core.enums.DatasourceTypeEnum;
-import com.bin.kong.dms.core.enums.SqlExeRecordStatusEnum;
-import com.bin.kong.dms.core.enums.SqlExeResultStatusEnum;
-import com.bin.kong.dms.core.enums.SqlSyntaxCheckResultEnum;
+import com.bin.kong.dms.core.enums.*;
 import com.bin.kong.dms.core.utils.PPAesUtils;
 import com.bin.kong.dms.core.utils.PPStringUtils;
 import com.bin.kong.dms.dao.mapper.config.CfBusGroupMapper;
@@ -25,11 +22,13 @@ import com.bin.kong.dms.model.result.entity.RsSqlExeResult;
 import com.bin.kong.dms.sever.service.ISqlExeService;
 import com.bin.kong.dms.sever.service.ISqlOptionsTypePermissionService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +59,48 @@ public class SqlExeServiceImpl implements ISqlExeService {
 
         CfDatasource cfDatasource = datasourceMapper.selectByPrimaryKey(rsSqlExeRecord.getDatasource_id());
 
-        List<DynamicSqlOptionTypeEntity> sqlOptionTypeEntityList = DynamicSqlOptionTypeControl.dealSqlOptionType(sql, DatasourceTypeEnum.getByType(cfDatasource.getType()));
+        String error_msg = null;
+        List<DynamicSqlOptionTypeEntity> sqlOptionTypeEntityList = new ArrayList<>();
+        try {
+            sqlOptionTypeEntityList = DynamicSqlOptionTypeWithDruidControl.dealSqlOptionType(sql, DatasourceTypeEnum.getByType(cfDatasource.getType()));
+        } catch (Exception e) {
+            error_msg = e.getMessage();
+        }
+
+        if (StringUtils.isNotEmpty(error_msg) || CollectionUtils.isEmpty(sqlOptionTypeEntityList)) {
+            SqlExeResult sqlExeResult = SqlExeResult.builder()
+                    .start_time(new Date())
+                    .end_time(new Date())
+                    .sql(sql)
+                    .message(StringUtils.isNotEmpty(error_msg) ? error_msg : "请输入要执行的SQL！")
+                    .success(false)
+                    .build();
+            sqlExeResultMapper.insertSelective(RsSqlExeResult.builder()
+                    .sql_exe_record_id(rsSqlExeRecord.getId())
+                    .sql_text(sql)
+                    .create_time(new Date())
+                    .update_time(new Date())
+                    .creator_account(rsSqlExeRecord.getCreate_account())
+                    .creator_name(rsSqlExeRecord.getCreate_name())
+                    .status(SqlExeResultStatusEnum.FAIL.getStatus())
+                    .db(rsSqlExeRecord.getDb())
+                    .datasource_name(cfDatasource.getName())
+                    .datasource_id(cfDatasource.getId())
+                    .datasource_type(cfDatasource.getType())
+                    .sql_option_type(SqlOptionTypeEnum.DQL.getType())
+                    .group_id(cfDatasource.getGroup_id())
+                    .group_name(getGroupName(cfDatasource.getGroup_id()))
+                    .result(JSON.toJSONString(sqlExeResult, SerializerFeature.WriteMapNullValue))
+                    .build());
+
+            sqlExeRecordMapper.updateByPrimaryKeySelective(RsSqlExeRecord.builder()
+                    .status(SqlExeRecordStatusEnum.COMPLETE.getStatus())
+                    .id(rsSqlExeRecord.getId())
+                    .update_time(new Date())
+                    .build());
+
+            return;
+        }
 
 
         sqlOptionTypeEntityList.forEach(sqlOptionTypeEntity -> {

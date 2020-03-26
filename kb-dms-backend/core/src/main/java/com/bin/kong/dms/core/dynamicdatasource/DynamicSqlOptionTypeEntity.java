@@ -22,4 +22,8 @@ public class DynamicSqlOptionTypeEntity {
     private DatasourceTypeEnum datasource_type_enum;
 
     private SqlSyntaxCheckResultEnum syntax_check_result_enum;
+
+    private Object druidObj;
+
+    private String table_list;
 }
