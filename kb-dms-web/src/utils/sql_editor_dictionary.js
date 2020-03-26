@@ -1,18 +1,9 @@
 export const sql_editor_select_100 = {
   1: {
-    command: "SELECT * FROM {0} LIMIT 100;",
+    command: "select * from {0} limit 100;",
   },
   2: {
-    command: "SELECT TOP 100 * FROM {0};",
-  },
-};
-
-export const sql_editor_create_table = {
-  1: {
-    command: "SELECT * FROM {0} LIMIT 100;",
-  },
-  2: {
-    command: "SELECT TOP 100 * FROM {0};",
+    command: "select top 100 * from {0};",
   },
 };
 
