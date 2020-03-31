@@ -1145,8 +1145,6 @@ export default {
         props.row.column_def = null
         props.row.is_primary_key = false
         props.row.is_unsigned = false
-        props.row.is_autoincrement = false
-        props.row.is_nullable = false
       }
 
       if (column_name === 'column_def' && v === '' && props.row.type_name.toUpperCase().indexOf("VARCHAR") === -1) {
