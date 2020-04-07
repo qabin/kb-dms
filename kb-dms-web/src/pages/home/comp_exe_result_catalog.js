@@ -486,13 +486,11 @@ export default {
     change_result_value(exe_result_list) {
       let timeType = {}
       this.table_fields && Object.keys(this.table_fields).forEach(key => {
-        if (this.table_fields[key]['type_name'] === 'TIMESTAMP' || this.table_fields[key]['type_name'] === 'DATETIME'
-          || this.table_fields[key]['type_name'] === 'TIME' || this.table_fields[key]['type_name'] === 'DATE'
-          || this.table_fields[key]['type_name'] === 'YEAR') {
+        if (data_type_name_date_options.some(d => this.table_fields[key]['type_name'].toUpperCase().indexOf(d.toUpperCase()) !== -1)) {
           timeType[this.table_fields[key]['column_name']] = this.table_fields[key]['type_name']
         }
       })
-      let chagne_list = []
+      let change_list = []
       if (exe_result_list && exe_result_list.length > 0) {
         Object.keys(exe_result_list).map(k => {
           if (k !== '__index') {
@@ -500,28 +498,26 @@ export default {
             Object.keys(timeType).forEach(type => {
               result[type] = this.change_value(result[type], timeType[type])
             })
-            chagne_list.push(result)
+            change_list.push(result)
           }
         })
       }
 
-      return chagne_list
+      return change_list
     },
     change_value(value, type) {
-      switch (type) {
-        case 'TIMESTAMP':
-          return format_date_full(value)
-        case 'DATETIME':
-          return format_date_full(value)
-        case 'TIME':
-          return format_time(value)
-        case 'DATE':
-          return format_day(value)
-        case 'YEAR':
-          return format_year(value)
-        default:
-          return value
+      if (type.toUpperCase().indexOf('TIMESTAMP') !== -1) {
+        return format_date_full(value)
+      } else if (type.toUpperCase().indexOf('DATETIME') !== -1) {
+        return format_date_full(value)
+      } else if (type.toUpperCase().indexOf('TIME') !== -1) {
+        return format_time(value)
+      } else if (type.toUpperCase().indexOf('DATE') !== -1) {
+        return format_day(value)
+      } else if (type.toUpperCase().indexOf('YEAR') !== -1) {
+        return format_year(value)
       }
+      return value
     },
     edit_columns() {
       this.table_columns = []
